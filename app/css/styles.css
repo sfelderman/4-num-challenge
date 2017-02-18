@@ -12,7 +12,8 @@
 
 .mdl-layout .number-container {
   padding: 10px; }
-  .mdl-layout .number-container #number-list {
+  .mdl-layout .number-container .number-list {
     display: inline; }
-    .mdl-layout .number-container #number-list .number-box {
-      display: inline; }
+    .mdl-layout .number-container .number-list .number-box {
+      display: inline;
+      font-size: 35px; }

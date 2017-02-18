@@ -23,32 +23,29 @@
         <div class="input-layout">
             <div class="input-container">
                 <div class="mdl-textfield">
-                    <input class="mdl-textfield__input input-field" type="text" id="input-box" placeholder="Expression Goes Here">
+                    <input class="mdl-textfield__input" type="text" id="input-box" onkeyup="inputChange(this.value);" placeholder="Expression Goes Here">
                 </div>
             </div>
             <div class="equals-sign"> = </div>
-            <div id="display-value"></div>
+            <div id="display-value"> ? </div>
         </div>
         <div class="mdl-list number-container">
-            <ul id="number-list">
-
+            <ul class="number-list">
+                <div class="mdl-list__item number-box" id="num1">
+                    <label class="number-label">1</label>
+                </div>
+                <div class="mdl-list__item number-box" id="num2">
+                    <label class="number-label">2</label>
+                </div>
+                <div class="mdl-list__item number-box" id="num3">
+                    <label class="number-label">3</label>
+                </div>
+                <div class="mdl-list__item number-box" id="num4">
+                    <label class="number-label">4</label>
+                </div>
             </ul>
         </div>
     </div>
-
-
-    <!-- ========= -->
-    <!-- Templates -->
-    <!-- ========= -->
-    <script type="text/template" id="number-template">
-        <div class="mdl-list__item number-box">
-            <label class="number-label">%- value -%</label>
-        </div>
-    </script>
-
-    <script type="text/template" id="solution-template">
-        <label id="solution-label">%- value -%</label>
-    </script>
 
     <!-- ========= -->
     <!-- Libraries -->
@@ -64,81 +61,66 @@
     <script type="text/javascript">
 		'use strict';
 
-		var a = "2 * 3 + 1";
-		var b = math.compile(a);
-		console.log(a);
-		console.log(b.toString());
-		console.log(b.eval());
+		var rands = [];
+		for (var i = 0; i < 6; i++) {
+			rands.push(parseInt(Math.random() * 10));
+        }
+        console.log(rands);
 
-		var app = {};
+		var target = "";
+		if (Math.random() <= .5) {
+			target = parseInt(rands[4] + "" + rands[5]);
+        } else {
+			target = parseInt(rands[5] + "" + rands[4]);
+        }
+        console.log(target);
 
-        //--------------
-		// Models
-		//--------------
-		app.Number = Backbone.Model.extend({
-			defaults: {
-				value: 0
-			}
-		});
-
-        app.Solution = Backbone.Model.extend({
-			defaults: {
-				value: '?'
-			}
-		});
-
-		//--------------
-		// Collections
-		//--------------
-//		app.numberList = new app.NumberList();
-
-		//--------------
-		// Views
-		//--------------
-        app.NumberView = Backbone.View.extend({
-	        tagName: 'li',
-	        template: _.template($('#number-template').html()),
-	        render: function() {
-		        this.$el.html(this.template(this.model.toJSON()));
-//		        this.input = this.$('.edit');
-		        return this;
-	        },
-	        initialize: function() {
-		        this.model.on('change', this.render, this);
-	        }
-        });
-
-        app.SolutionView = Backbone.View.extend({
-        	tagName: 'div',
-            template: _.template($('#solution-template').html()),
-            render: function () {
-                this.$el.html(this.template(this.model.toJSON()))
-                return this;
-        	},
-            initialize: function () {
-	            this.model.on('change', this.render, this);
+		function inputChange(input) {
+			var re = /[0-9]+/g;
+			var results = [];
+			var m = re.exec(input);
+			while (m) {
+				results.push(m[0]);
+				m = re.exec(input);
             }
-        });
+			console.log(results);
+			try {
+				if (validInput(input)) {
+					var comp = math.compile(input);
+					var evalInput = comp.eval();
+					console.log(evalInput);
+					var display = document.getElementById("display-value");
 
-		app.AppView = Backbone.View.extend({
-			el: '#num-challenge',
-			initialize: function () {
-//				this.input = this.$('#new-movie');
-//				app.movieList.on('add', this.addAll, this);
-//				app.movieList.on('reset', this.addAll, this);
-//				app.movieList.fetch(); // Loads list from local storage
-			},
-			events: {
-//				'keypress #new-movie': 'createMovieOnEnter'
-			}
-		});
+					if (evalInput) {
+						display.innerHTML = evalInput;
+					} else {
+						display.innerHTML = "?";
+					}
+                }
+                else {
+					document.getElementById("display-value").innerHTML = "?";
+                }
 
-		//--------------
-		// Initializers
-		//--------------
+            }
+            catch (e) {
+	            document.getElementById("display-value").innerHTML = "?";
+            }
 
-		app.appView = new app.AppView();
+			console.log();
+		}
 
+		function validInput(input) {
+			var singleNum = /^[0-9]/; //is a number
+            var validChar = /^((s|q|r|t)|[0-9]|(\s|\-|\*|\/|^|\!|\(|\)|\+))*$/
+			if (input.length === 1 && !singleNum.test(input)) {
+				console.log("Invalid Input"); //TODO make error message
+				return false;
+            } else if (!validChar.test(input)) {
+				console.log("Invalid Input"); //TODO make error message
+                return false;
+            }
+			return true;
+		}
 
     </script>
 

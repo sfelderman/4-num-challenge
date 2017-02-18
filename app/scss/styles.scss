@@ -18,11 +18,13 @@
 
 .mdl-layout .number-container {
   padding: 10px;
-  #number-list {
+  .number-list {
     display: inline;
 
     .number-box {
       display: inline;
+      font-size: 35px;
+
     }
   }
 }
