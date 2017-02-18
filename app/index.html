@@ -12,18 +12,43 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="material.min.css">
     <script src="material.min.js"></script>
+    <script src="math.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 <body>
-<!-- ========= -->
-<!-- Your HTML -->
-<!-- ========= -->
+    <!-- ========= -->
+    <!-- Your HTML -->
+    <!-- ========= -->
+    <div class="mdl-layout" id="num-challenge">
+        <div class="input-layout">
+            <div class="input-container">
+                <div class="mdl-textfield">
+                    <input class="mdl-textfield__input input-field" type="text" id="input-box" placeholder="Expression Goes Here">
+                </div>
+            </div>
+            <div class="equals-sign"> = </div>
+            <div id="display-value"></div>
+        </div>
+        <div class="mdl-list number-container">
+            <ul id="number-list">
+
+            </ul>
+        </div>
+    </div>
 
 
     <!-- ========= -->
     <!-- Templates -->
     <!-- ========= -->
+    <script type="text/template" id="number-template">
+        <div class="mdl-list__item number-box">
+            <label class="number-label">%- value -%</label>
+        </div>
+    </script>
 
+    <script type="text/template" id="solution-template">
+        <label id="solution-label">%- value -%</label>
+    </script>
 
     <!-- ========= -->
     <!-- Libraries -->
@@ -39,23 +64,80 @@
     <script type="text/javascript">
 		'use strict';
 
+		var a = "2 * 3 + 1";
+		var b = math.compile(a);
+		console.log(a);
+		console.log(b.toString());
+		console.log(b.eval());
+
+		var app = {};
+
         //--------------
 		// Models
 		//--------------
+		app.Number = Backbone.Model.extend({
+			defaults: {
+				value: 0
+			}
+		});
+
+        app.Solution = Backbone.Model.extend({
+			defaults: {
+				value: '?'
+			}
+		});
 
 		//--------------
 		// Collections
 		//--------------
-
+//		app.numberList = new app.NumberList();
 
 		//--------------
 		// Views
 		//--------------
+        app.NumberView = Backbone.View.extend({
+	        tagName: 'li',
+	        template: _.template($('#number-template').html()),
+	        render: function() {
+		        this.$el.html(this.template(this.model.toJSON()));
+//		        this.input = this.$('.edit');
+		        return this;
+	        },
+	        initialize: function() {
+		        this.model.on('change', this.render, this);
+	        }
+        });
 
+        app.SolutionView = Backbone.View.extend({
+        	tagName: 'div',
+            template: _.template($('#solution-template').html()),
+            render: function () {
+                this.$el.html(this.template(this.model.toJSON()))
+                return this;
+        	},
+            initialize: function () {
+	            this.model.on('change', this.render, this);
+            }
+        });
+
+		app.AppView = Backbone.View.extend({
+			el: '#num-challenge',
+			initialize: function () {
+//				this.input = this.$('#new-movie');
+//				app.movieList.on('add', this.addAll, this);
+//				app.movieList.on('reset', this.addAll, this);
+//				app.movieList.fetch(); // Loads list from local storage
+			},
+			events: {
+//				'keypress #new-movie': 'createMovieOnEnter'
+			}
+		});
 
 		//--------------
 		// Initializers
 		//--------------
+
+		app.appView = new app.AppView();
 
 
     </script>

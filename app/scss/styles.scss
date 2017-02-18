@@ -1,0 +1,28 @@
+.mdl-layout .input-layout {
+
+  .input-container {
+    display: inline;
+  }
+
+  .equals-sign {
+    display: inline;
+    font-size: 35px;
+  }
+
+  #display-value {
+    display: inline;
+    padding-left: 25px;
+    font-size: 35px;
+  }
+}
+
+.mdl-layout .number-container {
+  padding: 10px;
+  #number-list {
+    display: inline;
+
+    .number-box {
+      display: inline;
+    }
+  }
+}
