@@ -1,14 +1,15 @@
-.mdl-layout .input-layout .input-container {
-  display: inline; }
-
-.mdl-layout .input-layout .equals-sign {
-  display: inline;
-  font-size: 35px; }
-
-.mdl-layout .input-layout #display-value {
-  display: inline;
-  padding-left: 25px;
-  font-size: 35px; }
+.mdl-layout .input-layout {
+  margin: 10px;
+  padding-left: 25px; }
+  .mdl-layout .input-layout .input-container {
+    display: inline; }
+  .mdl-layout .input-layout .equals-sign {
+    display: inline;
+    font-size: 35px; }
+  .mdl-layout .input-layout #display-value {
+    display: inline;
+    padding-left: 25px;
+    font-size: 35px; }
 
 .mdl-layout .number-container {
   padding: 10px; }
@@ -17,3 +18,8 @@
     .mdl-layout .number-container .number-list .number-box {
       display: inline;
       font-size: 35px; }
+    .mdl-layout .number-container .number-list .target-box {
+      padding-left: 45px; }
+
+.number-used {
+  background: green; }

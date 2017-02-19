@@ -1,4 +1,6 @@
 .mdl-layout .input-layout {
+  margin: 10px;
+  padding-left: 25px;
 
   .input-container {
     display: inline;
@@ -25,6 +27,15 @@
       display: inline;
       font-size: 35px;
 
+
+    }
+
+    .target-box {
+      padding-left: 45px;
     }
   }
+}
+
+.number-used {
+  background: green;
 }
